@@ -7,9 +7,6 @@ pub fn get_total_distance(locations: *Locations) !void {
     const left_arr = locations.left;
     const right_arr = locations.right;
 
-    std.mem.sort(usize, left_arr, {}, comptime std.sort.asc(usize));
-    std.mem.sort(usize, right_arr, {}, comptime std.sort.asc(usize));
-
     var dis: usize = 0;
 
     for (left_arr, right_arr) |left, right| {
