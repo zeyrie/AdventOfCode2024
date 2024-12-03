@@ -1,6 +1,7 @@
 const std = @import("std");
 // const day_one = @import("day_one/day_one.zig");
-const day_two = @import("day_two/day_two.zig");
+// const day_two = @import("day_two/day_two.zig");
+const day_three = @import("03_day_three/day_three.zig");
 
 pub fn main() !void {
     const firstTime = std.time.milliTimestamp();
@@ -15,7 +16,7 @@ pub fn main() !void {
     }
 
     // try day_one.execute_day_one(&allocator);
-    try day_two.execute_day_two(&allocator);
+    try day_three.execute_day_three(&allocator);
 
     const endTime = std.time.milliTimestamp();
 
