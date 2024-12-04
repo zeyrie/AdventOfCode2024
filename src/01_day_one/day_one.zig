@@ -3,7 +3,7 @@ const get_loc = @import("get_loc.zig");
 const distance = @import("get_distance.zig");
 const similarity = @import("get_similarity.zig");
 
-pub fn execute_day_one(alloc: *std.mem.Allocator) !void {
+pub fn execute(alloc: std.mem.Allocator) !void {
     var loc: get_loc.Locations = undefined;
 
     if (try get_loc.read_location_ids(alloc)) |l| {

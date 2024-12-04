@@ -6,7 +6,7 @@ pub const Locations = struct {
 };
 
 /// read the IDs from the loc.input file in the resources directory
-pub fn read_location_ids(allocator: *std.mem.Allocator) !?Locations {
+pub fn read_location_ids(allocator: std.mem.Allocator) !?Locations {
     const path = "resource/loc.input";
 
     const file = std.fs.cwd().openFile(path, .{}) catch |err| {
@@ -22,7 +22,7 @@ pub fn read_location_ids(allocator: *std.mem.Allocator) !?Locations {
         .right = try allocator.alloc(usize, 1000),
     };
 
-    while (file.reader().readUntilDelimiterOrEofAlloc(allocator.*, '\n', std.math.maxInt(usize)) catch |err| {
+    while (file.reader().readUntilDelimiterOrEofAlloc(allocator, '\n', std.math.maxInt(usize)) catch |err| {
         std.log.err("Failed to read file: {s}", .{@errorName(err)});
         return null;
     }) |line| {

@@ -3,8 +3,6 @@ const std = @import("std");
 pub fn get_instructions(allocator: std.mem.Allocator) !?[][]const u8 {
     const path = "resource/corrupt_mul.input";
 
-    std.log.info("Path: {s}", .{path});
-
     const file = std.fs.cwd().openFile(path, .{}) catch |err| {
         std.log.err("Failed to open file: {s}", .{@errorName(err)});
         return null;

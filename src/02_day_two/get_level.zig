@@ -5,11 +5,8 @@ pub const Level = struct {
     flr: []u16,
 };
 
-pub fn get_level(allocator: *std.mem.Allocator) !?[]Level {
-    // const path = "resource/lvl.test";
+pub fn get_level(allocator: std.mem.Allocator) !?[]Level {
     const path = "resource/lvl.input";
-
-    std.log.info("Path: {s}", .{path});
 
     const file = std.fs.cwd().openFile(path, .{}) catch |err| {
         std.log.err("Failed to open file: {s}", .{@errorName(err)});
@@ -21,7 +18,7 @@ pub fn get_level(allocator: *std.mem.Allocator) !?[]Level {
 
     var levels = try allocator.alloc(Level, 1000);
 
-    while (file.reader().readUntilDelimiterOrEofAlloc(allocator.*, '\n', std.math.maxInt(usize)) catch |err| {
+    while (file.reader().readUntilDelimiterOrEofAlloc(allocator, '\n', std.math.maxInt(usize)) catch |err| {
         std.log.err("Failed to read file: {s}", .{@errorName(err)});
         return null;
     }) |line| {

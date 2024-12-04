@@ -20,5 +20,6 @@ pub fn get_similarity_score(locations: *Locations) !void {
         score += count * left;
     }
 
-    std.debug.print("\n\nScore: {d}", .{score});
+    std.debug.print("\nPart - II \n", .{});
+    std.debug.print("Score: {d}\n", .{score});
 }

@@ -29,7 +29,7 @@ pub fn execute(allocator: std.mem.Allocator) !void {
         }
     }
 
-    std.log.info("\nPart - I\nXMAS Count: {d}", .{xmas_count});
+    std.debug.print("\nPart - I\nXMAS Count: {d}\n", .{xmas_count});
 
     var x_mas_count: usize = 0;
 
@@ -42,7 +42,7 @@ pub fn execute(allocator: std.mem.Allocator) !void {
         }
     }
 
-    std.log.info("\nPart - II\nX-MAS Count: {d}", .{x_mas_count});
+    std.debug.print("\nPart - II\nX-MAS Count: {d}\n", .{x_mas_count});
 }
 
 const Position = struct { x: i16, y: i16 };

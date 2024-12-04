@@ -2,8 +2,8 @@ const std = @import("std");
 const get_inst = @import("get_instructions.zig");
 const parser = @import("parser.zig");
 
-pub fn execute_day_three(alloc: *std.mem.Allocator) !void {
-    var arena_allocator = std.heap.ArenaAllocator.init(alloc.*);
+pub fn execute(alloc: std.mem.Allocator) !void {
+    var arena_allocator = std.heap.ArenaAllocator.init(alloc);
     const arena = arena_allocator.allocator();
 
     defer arena_allocator.deinit();
@@ -14,7 +14,6 @@ pub fn execute_day_three(alloc: *std.mem.Allocator) !void {
     } else {
         return error.InstructionsFoundNull;
     }
-    std.log.info("Instructions Received", .{});
 
     // var sum: usize = 0;
 
@@ -29,9 +28,13 @@ pub fn execute_day_three(alloc: *std.mem.Allocator) !void {
     //     sum += res;
     // }
 
-    const sum: usize = try execute_instructions(try parser.parse_instruction(arena, long_inst));
+    std.debug.print("\nPart - I\n", .{});
+    var sum: usize = try execute_instructions(try parser.parse_instruction(arena, long_inst, false));
+    std.debug.print("Result {d}\n", .{sum});
 
-    std.log.info("Final Result {d}", .{sum});
+    std.debug.print("\nPart - II\n", .{});
+    sum = try execute_instructions(try parser.parse_instruction(arena, long_inst, true));
+    std.debug.print("Result {d}\n", .{sum});
 }
 
 fn execute_instructions(inst: std.ArrayList([]const u8)) !usize {

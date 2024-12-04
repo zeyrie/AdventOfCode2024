@@ -21,7 +21,7 @@ const State = enum {
     Invalid,
 };
 
-pub fn parse_instruction(alloc: std.mem.Allocator, inst: []const u8) !std.ArrayList([]const u8) {
+pub fn parse_instruction(alloc: std.mem.Allocator, inst: []const u8, switch_present: bool) !std.ArrayList([]const u8) {
     const len = inst.len;
 
     var start_index: usize = undefined;
@@ -41,7 +41,11 @@ pub fn parse_instruction(alloc: std.mem.Allocator, inst: []const u8) !std.ArrayL
         const ch = inst[i];
         switch (ch) {
             'd' => {
-                state = .d;
+                if (switch_present) {
+                    state = .d;
+                } else {
+                    state = .Invalid;
+                }
             },
             'o' => {
                 if (state == .d) {

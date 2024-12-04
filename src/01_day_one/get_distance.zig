@@ -19,5 +19,6 @@ pub fn get_total_distance(locations: *Locations) !void {
         }
     }
 
-    std.debug.print("Distance: {d}", .{dis});
+    std.debug.print("\nPart - I\n", .{});
+    std.debug.print("Distance: {d}\n", .{dis});
 }

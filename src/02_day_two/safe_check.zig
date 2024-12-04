@@ -1,19 +1,20 @@
 const std = @import("std");
 const get_level = @import("get_level.zig");
 
-pub fn get_num_of_safe_levels(allocator: *std.mem.Allocator) !u16 {
-    var levels: []get_level.Level = undefined;
+pub fn get_safe_count_for(levels: *[]get_level.Level) !u16 {
+    const lvls = levels.*;
+    var safe_lvl_count: u16 = 0;
 
-    if (try get_level.get_level(allocator)) |l| {
-        levels = l;
-    } else {
-        return error.FoundNilLevels;
+    for (lvls) |level| {
+        if (check_if_lvl_safe(level)) {
+            safe_lvl_count += 1;
+        }
     }
 
-    return try get_safe_count_for(allocator, &levels);
+    return safe_lvl_count;
 }
 
-fn get_safe_count_for(alloc: *std.mem.Allocator, levels: *[]get_level.Level) !u16 {
+pub fn get_safe_count_with_removal(alloc: std.mem.Allocator, levels: *[]get_level.Level) !u16 {
     const lvls = levels.*;
     var safe_lvl_count: u16 = 0;
 
@@ -23,11 +24,10 @@ fn get_safe_count_for(alloc: *std.mem.Allocator, levels: *[]get_level.Level) !u1
         }
     }
 
-    std.debug.print("Safe Level count: {d}", .{safe_lvl_count});
     return safe_lvl_count;
 }
 
-fn is_valid_on_removal(alloc: *std.mem.Allocator, lvl: get_level.Level) !bool {
+fn is_valid_on_removal(alloc: std.mem.Allocator, lvl: get_level.Level) !bool {
     const seq = lvl.flr;
     for (0..seq.len) |i| {
         const new_seq = try get_lvl_removing_flr_at(alloc, @intCast(i), lvl);
@@ -65,8 +65,7 @@ fn check_if_lvl_safe(level: get_level.Level) bool {
     return false;
 }
 
-fn get_lvl_removing_flr_at(alloc: *std.mem.Allocator, index: u16, old_level: get_level.Level) !*get_level.Level {
-    std.debug.print("\nRemoved: {d}", .{old_level.flr[index]});
+fn get_lvl_removing_flr_at(alloc: std.mem.Allocator, index: u16, old_level: get_level.Level) !*get_level.Level {
     const new_level = try alloc.create(get_level.Level);
     var new_flr = try alloc.alloc(u16, old_level.flr.len - 1);
     var new_ind: u8 = 0;
@@ -80,7 +79,6 @@ fn get_lvl_removing_flr_at(alloc: *std.mem.Allocator, index: u16, old_level: get
     }
 
     new_level.* = .{ .flr = new_flr };
-    std.debug.print("\nNew: {any}", .{new_level.*});
 
     return new_level;
 }
